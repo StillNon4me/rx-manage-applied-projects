@@ -1,4 +1,4 @@
-root_rx_path: 'D:\_rx'
+root_rx_path: 'D:\rx'
 
 instances_path_relative: 'rx_ins'
 logs_path_relative: 'rx_logs'
