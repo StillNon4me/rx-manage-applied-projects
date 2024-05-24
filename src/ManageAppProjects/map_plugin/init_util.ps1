@@ -76,7 +76,12 @@ function Copy-Modified-Config
         }
         elseif ($line.StartsWith("    QUEUE_CONNECTION_STRING:"))
         {
-            $queue_string = "virtualhost=$( $cfg.queue_virtual_host );hostname=$( $cfg.queue_server );port=5672;username=$( $cfg.queue_user );password=$( $cfg.queue_password );Exchange=$( $cfg.install_instance_name )"
+            $queue_exchange = $cfg.install_instance_name
+            if ($IsAfterInstall)
+            {
+               $queue_exchange =  'RX_{{ database }}'
+            }
+            $queue_string = "virtualhost=$( $cfg.queue_virtual_host );hostname=$( $cfg.queue_server );port=5672;username=$( $cfg.queue_user );password=$( $cfg.queue_password );Exchange=$( $queue_exchange )"
             Add-Content -Path $TargetPath -Value "    QUEUE_CONNECTION_STRING: '$queue_string'" -Encoding 'utf8'
         }
         elseif ($line.StartsWith("    DATA_PROTECTION_CERTIFICATE_THUMBPRINT:"))
