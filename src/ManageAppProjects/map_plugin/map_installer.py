@@ -436,6 +436,36 @@ def _show_CommentedMap(template_config: CommentedMap, dst_config: CommentedMap, 
                 value = f"{_colorize_green(v)}"
             log.info(f"{(indent)*indent_template}{mark}{k}: {value}")
 
+def _try_replace_variables(cfg, param: str) -> str:
+    variables = cfg['variables']
+    pattern_param = re.compile(r'{{ (.+) }}')
+    while pattern_param.search(param) is not None:
+        for variable_name in pattern_param.findall(param):
+            param = pattern_param.sub(variables[variable_name.strip()], param)
+    return param
+
+def _create_repo_symlinks(config):
+    # создание директории репозиториев для dds
+    git_root_dir = config["variables"]["home_path_src"]
+    if git_root_dir is not None:
+        git_root_dir = _try_replace_variables(config, git_root_dir)
+        if not os.path.exists(git_root_dir):
+            log.info(_colorize_green("Создание корневой папки репозиториев: {git_root_dir}"))
+            os.makedirs(git_root_dir)
+
+        # создание указанных симлинков для репозиториев
+        dds_config = config["services_config"]["DevelopmentStudio"]
+        if dds_config is not None:
+            repos = dds_config["REPOSITORIES"]["repository"]
+            for repo in repos:
+                symlink_source = repo["@symlinkFolderPath"]
+                symlink_destination = f"{git_root_dir}\\{repo['@folderName']}"
+                if symlink_source is not None and symlink_source != '':
+                    if not os.path.exists(symlink_destination):
+                        symlink_source = f"{symlink_source}\\{repo['@folderName']}"
+                        log.info(_colorize_green(f"Создание симлинка: {symlink_destination} -> {symlink_source}"))
+                        os.symlink(symlink_source, symlink_destination)
+
 def _update_sungero_config(project_config_path, sungero_config_path):
     """Преобразовать текущий config.yml в соотвтетствии с указанным конфигом проекта.
     Преобразование выполняется без сохранения на диске
@@ -551,7 +581,7 @@ class ManageAppliedProject(BaseComponent):
     def create_project(self, project_config_path: str, package_path:str = "",
                        need_import_src:bool = False, confirm: bool = True,
                        rundds: bool = None, need_pause: bool = False) -> None:
-        """ Создать новый прикладной проект (эксперементальная фича).
+        """ Создать новый прикладной проект (экспериментальная фича).
         Будет создана БД, в неё будет принят пакет разработки и стандратные шаблоны.
 
         Args:
@@ -590,6 +620,9 @@ class ManageAppliedProject(BaseComponent):
                 dst_config = _update_sungero_config(project_config_path, self.config_path)
                 yaml_tools.yaml_dump_to_file(dst_config, self.config_path)
                 time.sleep(2)
+
+                # создать симлинки для репозиториев
+                _create_repo_symlinks(dst_config)
 
                 # создать БД
                 log.info(_colorize_green("Создать БД"))
@@ -658,7 +691,7 @@ class ManageAppliedProject(BaseComponent):
             elif answ=='n' or answ=='N':
                 break
 
-    def set(self, project_config_path: str = None, confirm: bool = True, rundds: bool = None, 
+    def set(self, project_config_path: str = None, confirm: bool = True, rundds: bool = None,
            need_pause: bool = False, need_convert_db = True, need_check = True) -> None:
         """ Переключиться на указанный прикладной проект
 
