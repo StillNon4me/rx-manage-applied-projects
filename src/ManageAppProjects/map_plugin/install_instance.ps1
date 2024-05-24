@@ -144,6 +144,7 @@ if ($version -eq "4.2") {
   .\do.bat components add_package $rx_instaler_dir_path\DevelopmentStudio.zip 
   .\do.bat components add_package $rx_instaler_dir_path\DirectumRX.zip 
   .\do.bat components add_package $rx_instaler_dir_path\DeploymentTool.zip 
+  .\do.bat components add_package $rx_instaler_dir_path\Repacking.zip
 }
 
 .\do.bat dds install
