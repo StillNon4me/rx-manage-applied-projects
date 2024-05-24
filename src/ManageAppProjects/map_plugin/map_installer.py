@@ -832,9 +832,11 @@ services_config:
             -   '@folderName': '<папка репозитория-1>'
                 '@solutionType': 'Work'
                 '@url': '<url репозитория-1>'
+                '@symlinkFolderPath': '<родительская папка репозитория для созданимя симлинка (опц.)>'
             -   '@folderName': '<папка репозитория-2>'
                 '@solutionType': 'Base'
                 '@url': '<url репозитория-2>'
+                '@symlinkFolderPath': '<родительская папка репозитория для созданимя симлинка (опц.)>'
 """
         _generate_empty_config_by_template(new_config_path, template_config)
 
