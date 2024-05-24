@@ -1,0 +1,31 @@
+root_rx_path: 'D:\_rx'
+
+instances_path_relative: 'rx_ins'
+logs_path_relative: 'rx_logs'
+update_config_before_install_path_relative: 'update_config_before_install.yml'
+update_config_after_install_path_relative: 'update_config_after_install.yml'
+
+install_instance_name: 'rx_install'
+
+db_engine: 'mssql'
+#db_engine: 'postgres'
+#postgres_port: '5432'
+db_server: 'localhost'
+db_user: 'admin' #  user "sa" not allowed
+db_password: '11111'
+
+queue_server: 'localhost'
+queue_virtual_host: 'rx'
+queue_user: 'admin'
+queue_password: 'admin'
+
+mongo_server: 'localhost'
+mongo_user: 'admin'
+mongo_password: '11111'
+
+ssl_cert_thumbprint: 'D91C6DB6158213A8DC249AFBDF304115FA9A8591'
+service_user_password: '11111'
+company_code: 'Sungero'
+
+postgresql_bin: ''
+#postgresql_bin: 'C:\Program Files\PostgreSQL\11\bin'

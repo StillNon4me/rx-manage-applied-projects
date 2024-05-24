@@ -2,25 +2,31 @@ variables:
     host_fqdn: 'localhost'
     protocol: 'http'
     home_path: '...домашний каталог на время устаноки инстанса...'
-    home_path_src: '...домашний каталог на время устаноки инстанса...'    
-devstand_config: &devstand_config
+    home_path_src: '...домашний каталог на время устаноки инстанса...'
+    wcf_app_name: 'Sungero'
+devstand_config:
     SAVE_NOCODE_SETTINGS_TO_SOURCES: 'true'
     DEV_STUDIO_CONFIG_PATH: '{{ instance_root_path }}\{{ instance_name }}\etc\_builds\DevelopmentStudio\bin\_ConfigSettings.xml'
 common_config:
-    DATABASE_ENGINE: 'mssql'
-    CONNECTION_STRING: 'data source=...сервер...;initial catalog=;user id=...логин...;Password=...пароль...'
+    #DATABASE_ENGINE: 'mssql'
+    #CONNECTION_STRING: 'data source=...сервер...;initial catalog=;user id=...логин...;Password=...пароль...'
     #DATABASE_ENGINE: 'postgres'
     #CONNECTION_STRING: 'server=...сервер...;port=5432;database=...база_данных...;user id=...логин...;Password=...пароль...'
+    DATABASE_ENGINE: 'mssql'
+    CONNECTION_STRING: 'data source=...сервер...;initial catalog=;user id=...логин...;Password=...пароль...'
     QUEUE_CONNECTION_STRING: 'virtualhost=...виртуальный_хост...;hostname=...имя_сервера...;port=5672;username=...логин...;password=...пароль...;Exchange=rxexch_install'
-    DATA_PROTECTION_CERTIFICATE_FILE: '...путь_к_pfx_файлу_сертификата...'
-    DATA_PROTECTION_CERTIFICATE_FILE_PASSWORD: '...пароль_сертификата...'
+    #DATA_PROTECTION_CERTIFICATE_FILE: '...путь_к_pfx_файлу_сертификата...'
+    #DATA_PROTECTION_CERTIFICATE_FILE_PASSWORD: '...пароль_сертификата...'
+    DATA_PROTECTION_CERTIFICATE_THUMBPRINT: '...отпечаток сертификата...'
     MONGODB_CONNECTION_STRING: 'mongodb://<...user...>:<...password...>@<...HOST_IP...>:27017'
     AUTHENTICATION_USERNAME: 'Service User'
     AUTHENTICATION_PASSWORD: '...пароль_системных_пользователей...'
+    WEB_HOST_PATH_BASE: 'Client'
 services_config:
     DevelopmentStudio:
         COMPANY_CODE: '...Код_компании_разработчика....'
         UNIQUE_NAMES_IN_OVERRIDES: true
+        LOCAL_WEB_RELATIVE_PATH: 'Client'
 manage_applied_projects:
     postgresql_bin: '...путь_к_bin_каталогу_PostgreSQL...'
     run_dds_after_set_project: 'True'

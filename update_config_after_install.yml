@@ -1,14 +1,16 @@
 variables:
-    purpose: 'назначение проекта'
+    purpose: 'Установочная конфигурация'
     database: 'база данных'
     home_path_src: 'корневой каталог исходников'
-logs_path:
+logs_path: &logs
     LOGS_PATH: '...корневой_каталог_логов...\{{ instance_name }}'
-common_config:
-    DATABASE_ENGINE: 'mssql'
-    CONNECTION_STRING: 'data source=...сервер...;initial catalog={{ database }};user id=...логин...;Password=...пароль...'
+common_config: &base
+    #DATABASE_ENGINE: 'mssql'
+    #CONNECTION_STRING: 'data source=...сервер...;initial catalog=;user id=...логин...;Password=...пароль...'
     #DATABASE_ENGINE: 'postgres'
-    #CONNECTION_STRING: 'server=...сервер...;port=5432;database={{ database }};user id=...логин...;Password=...пароль...'
+    #CONNECTION_STRING: 'server=...сервер...;port=5432;database=...база_данных...;user id=...логин...;Password=...пароль...'
+    DATABASE_ENGINE: 'mssql'
+    CONNECTION_STRING: 'data source=...сервер...;initial catalog=;user id=...логин...;Password=...пароль...'
     QUEUE_CONNECTION_STRING: 'virtualhost=...виртуальный_хост...;hostname=...имя_сервера...;port=5672;username=...логин...;password=...пароль...;Exchange=rxexch_{{ instance_name }}'
     WIDGETS_ORLEANS_SILO_MONGO_GRAIN_STORAGE_DATABASE_NAME: 'GRAIN_{{ database }}'
     WIDGETS_ORLEANS_SILO_MONGO_CLUSTERING_DATABASE_NAME: 'CLUSTERING_{{ database }}'
@@ -16,3 +18,28 @@ services_config:
     DevelopmentStudio:
         SERVICE_RUNNER_CONFIG_PATH: '{{ instance_root_path }}\{{ instance_name }}\etc\_{{ instance_name }}\_services_config\ServiceRunner\_ConfigSettings.xml'
         GIT_ROOT_DIRECTORY: '{{ home_path_src }}'
+    IIS:
+        wcf_app_name: 'Sungero'
+        wcf_apppool_name: 'Sungero'
+        desktop_dir_name: 'Client'
+    WcfServer:
+        #:auto_remove_comment:<<: [*base, *logs]
+        ISLOCAL: false
+        IS_DESKTOP_CLIENT_DISABLED: false
+        WEB_HOST_PATH_BASE: 'SungeroWeb'
+        LOGS_DEBUGGER:
+          '@enabled': 'false'
+        CERTIFICATE_SECURITY:
+          '@enabled': 'true'
+    DesktopClient:
+        #:auto_remove_comment:<<: *logs
+        SYSTEM_NAME: 'SungeroDevMSSQL'
+        SERVER_ROOT: '{{ host_fqdn }}/{{ wcf_app_name }}'
+        SERVER_ROOT_HTTP: 'http://{{ host_fqdn }}:80/{{ wcf_app_name }}'
+        SERVER_ROOT_HTTPS: 'https://{{ host_fqdn }}:443/{{ wcf_app_name }}'
+        SERVER_PROTOCOL: 'HTTPS'
+        EXTENDED_ADMINISTRATIVE_FUNCTIONS: true
+        LOGS_REMOTE:
+          '@enabled': true
+        LANGUAGE: 'ru'
+        LOG_LANGUAGE: 'ru'
