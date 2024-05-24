@@ -25,7 +25,9 @@ function Copy-Modified-Config
         [Parameter(Mandatory = $true)]
         [string]$SourcePath,
         [Parameter(Mandatory = $true)]
-        [string]$TargetPath
+        [string]$TargetPath,
+        [Parameter(Mandatory = $true)]
+        [bool]$IsAfterInstall
     )
     $original_cfg = Get-Content -Path $SourcePath -Encoding 'utf8'
     foreach ($line in $original_cfg)
@@ -53,13 +55,18 @@ function Copy-Modified-Config
         }
         elseif ($line.StartsWith("    CONNECTION_STRING:"))
         {
+            $db = $cfg.install_instance_name
+            if ($IsAfterInstall)
+            {
+               $db =  '{{ database }}'
+            }
             if ($cfg.db_engine -eq 'mssql')
             {
-                $connection_string = "data source=$( $cfg.db_server );initial catalog=$( $cfg.install_instance_name );user id=$( $cfg.db_user );Password=$( $cfg.db_password )"
+                $connection_string = "data source=$( $cfg.db_server );initial catalog=${db};user id=$( $cfg.db_user );Password=$( $cfg.db_password )"
             }
             elseif ($cfg.db_engine -eq 'postgres')
             {
-                $connection_string = "server=$( $cfg.db_server );port=$( $cfg.postgres_port );database=$( $cfg.install_instance_name );user id=$( $cfg.db_user );Password=$( $cfg.db_password )"
+                $connection_string = "server=$( $cfg.db_server );port=$( $cfg.postgres_port );database=$( db );user id=$( $cfg.db_user );Password=$( $cfg.db_password )"
             }
             else
             {
@@ -122,10 +129,10 @@ if (Test-Path -Path $before_install_cfg_path)
 {
     Remove-Item $before_install_cfg_path -Force | Out-Null
 }
-Copy-Modified-Config -SourcePath ( -join ($util_root, '\', 'update_config_before_install.yml')) -TargetPath $before_install_cfg_path | Out-Null
+Copy-Modified-Config -SourcePath ( -join ($util_root, '\', 'update_config_before_install.yml')) -TargetPath $before_install_cfg_path -IsAfterInstall $false | Out-Null
 
 if (Test-Path -Path $after_install_cfg_path)
 {
     Remove-Item $after_install_cfg_path -Force | Out-Null
 }
-Copy-Modified-Config -SourcePath ( -join ($util_root, '\', 'update_config_after_install.yml')) -TargetPath $after_install_cfg_path | Out-Null
+Copy-Modified-Config -SourcePath ( -join ($util_root, '\', 'update_config_after_install.yml')) -TargetPath $after_install_cfg_path -IsAfterInstall $true | Out-Null
