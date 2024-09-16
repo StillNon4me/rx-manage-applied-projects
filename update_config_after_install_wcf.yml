@@ -22,3 +22,24 @@ services_config:
         wcf_app_name: 'Sungero'
         wcf_apppool_name: 'Sungero'
         desktop_dir_name: 'Client'
+    WcfServer:
+        #:auto_remove_comment:<<: [*base, *logs]
+        ISLOCAL: false
+        IS_DESKTOP_CLIENT_DISABLED: false
+        WEB_HOST_PATH_BASE: 'SungeroWeb'
+        LOGS_DEBUGGER:
+          '@enabled': 'false'
+        CERTIFICATE_SECURITY:
+          '@enabled': 'true'
+    DesktopClient:
+        #:auto_remove_comment:<<: *logs
+        SYSTEM_NAME: 'SungeroDevMSSQL'
+        SERVER_ROOT: '{{ host_fqdn }}/{{ wcf_app_name }}'
+        SERVER_ROOT_HTTP: 'http://{{ host_fqdn }}:80/{{ wcf_app_name }}'
+        SERVER_ROOT_HTTPS: 'https://{{ host_fqdn }}:443/{{ wcf_app_name }}'
+        SERVER_PROTOCOL: 'HTTPS'
+        EXTENDED_ADMINISTRATIVE_FUNCTIONS: true
+        LOGS_REMOTE:
+          '@enabled': true
+        LANGUAGE: 'ru'
+        LOG_LANGUAGE: 'ru'

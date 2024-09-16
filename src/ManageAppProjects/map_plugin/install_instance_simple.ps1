@@ -18,14 +18,7 @@ $instance_root_dir_path = (-join ($root_path, '\', $cfg.instances_path_relative)
 $map_plugin_path = $PSScriptRoot
 $cfg_before_install_path = -join ($root_path, '\', $cfg.update_config_before_install_path_relative)
 $cfg_after_install_path = -join ($root_path, '\', $cfg.update_config_after_install_path_relative)
-
-$script = "$PSScriptRoot/install_instance.ps1"
-
-$command = -join ("$script -rx_instaler_dir_path '$rx_instaler_dir_path' -instance_name $instance_name -port $port",
-"-instance_root_dir_path '$instance_root_dir_path' -map_plugin_path '$map_plugin_path'",
-"-cfg_before_install_path '$cfg_before_install_path'",
-"-cfg_after_install_path '$cfg_after_install_path'"
-)
+$cfg_after_install_wfc_path = -join ($root_path, '\', $cfg.update_config_after_install_wcf_path_relative)
 
 $params = @{
     rx_instaler_dir_path = $rx_instaler_dir_path
@@ -35,6 +28,7 @@ $params = @{
     map_plugin_path = $map_plugin_path
     cfg_before_install_path = $cfg_before_install_path
     cfg_after_install_path = $cfg_after_install_path
+    cfg_after_install_wfc_path = $cfg_after_install_wfc_path
 }
 
 & "$PSScriptRoot/install_instance.ps1" @params

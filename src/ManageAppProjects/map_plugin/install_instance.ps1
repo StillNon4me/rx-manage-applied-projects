@@ -6,7 +6,8 @@ Param ([string] $rx_instaler_dir_path,    #каталог с дистрибут�
        [int] $port,                       #port
        [string] $map_plugin_path,         #каталог с плагином MAP
        [string] $cfg_before_install_path, #конфиг для обновления config.yml перед установкой
-       [string] $cfg_after_install_path   #конфиг для обновления config.yml после установки
+       [string] $cfg_after_install_path,   #конфиг для обновления config.yml после установки
+       [string] $cfg_after_install_wcf_path   #конфиг для обновления config.yml(c wcf) после установки
        )
 Write-Host "Переданные параметры:"
 Write-Host "  Каталог с дистрибутивом:" $rx_instaler_dir_path
@@ -16,6 +17,7 @@ Write-Host "  Порт:" $port
 Write-Host "  Каталог с плагином MAP:" $map_plugin_path
 Write-Host "  Конфиг для применения до установки:" $cfg_before_install_path
 Write-Host "  Конфиг для применения после установки:" $cfg_after_install_path
+Write-Host "  Конфиг для применения после установки(с wcf):" $cfg_after_install_wcf_path
 Write-Host ""
 
 $dst_path = Join-Path $instance_root_dir_path  $instance_name
@@ -72,7 +74,15 @@ if(!$is_exist_cfg_before_install_path){
 $is_exist_cfg_after_install_path = Test-Path $cfg_after_install_path -PathType Leaf
 if(!$is_exist_cfg_after_install_path){
   Write-Host ""
-  Write-Host "Не найден конфиг '$cfg_after_install_path' с параметрыми после-установки." -ForegroundColor Red
+  Write-Host "Не найден конфиг '$cfg_after_install_path' с параметрами после-установки." -ForegroundColor Red
+  Write-Host ""
+  $is_error = $true
+}
+
+$is_exist_cfg_after_install_path = Test-Path $cfg_after_install_wcf_path -PathType Leaf
+if(!$is_exist_cfg_after_install_path){
+  Write-Host ""
+  Write-Host "Не найден конфиг '$cfg_after_install_wcf_path' с параметрами после-установки(с wcf)." -ForegroundColor Red
   Write-Host ""
   $is_error = $true
 }
@@ -230,4 +240,12 @@ Start-Process -FilePath $exe_file -ArgumentList $arg_list
 Start-Process -FilePath .\DirectumLauncher.exe -ArgumentList "--host=0.0.0.0" -Wait
 
 #=============== скорректировать конфиг
-.\do.bat map update_config $cfg_after_install_path  --confirm=False  --need_pause=False
+$platform_info = (.\do.bat components list | Select-String -Pattern "^platform") -replace '\s+', ' '
+$added_platform_version = [version]($platform_info -split '\s')[2]
+
+$unsupport_wcf_version = [version]'4.11'
+if ($added_platform_version -lt $unsupport_wcf_version) {
+  .\do.bat map update_config $cfg_after_install_wcf_path  --confirm=False  --need_pause=False
+} else {
+  .\do.bat map update_config $cfg_after_install_path  --confirm=False  --need_pause=False
+}

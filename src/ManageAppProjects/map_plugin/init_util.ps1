@@ -122,6 +122,7 @@ $cfg = Get-Content $cfg_path -Encoding 'utf8' | Out-String | ConvertFrom-Yaml
 $root_path = $cfg.root_rx_path
 $before_install_cfg_path = -join ($root_path, '\', $cfg.update_config_before_install_path_relative)
 $after_install_cfg_path = -join ($root_path, '\', $cfg.update_config_after_install_path_relative)
+$after_install_cfg_wcf_path = -join ($root_path, '\', $cfg.update_config_after_install_wcf_path_relative)
 $root_logs_path = -join ($root_path, '\', $cfg.logs_path_relative)
 
 # Create packages
@@ -141,3 +142,9 @@ if (Test-Path -Path $after_install_cfg_path)
     Remove-Item $after_install_cfg_path -Force | Out-Null
 }
 Copy-Modified-Config -SourcePath ( -join ($util_root, '\', 'update_config_after_install.yml')) -TargetPath $after_install_cfg_path -IsAfterInstall $true | Out-Null
+
+if (Test-Path -Path $after_install_cfg_wcf_path)
+{
+    Remove-Item $after_install_cfg_wcf_path -Force | Out-Null
+}
+Copy-Modified-Config -SourcePath ( -join ($util_root, '\', 'update_config_after_install_wcf.yml')) -TargetPath $after_install_cfg_wcf_path -IsAfterInstall $true | Out-Null
