@@ -47,7 +47,12 @@
 ```
 .\src\ManageAppProjects\map_plugin\init_util.ps1
 ```
-4. Запустить команду создания инстанса. В "rx_instaler_dir_path" нужно указать путь к дистрибутиву, содержащему DL, RX, Repacking, DDS (можно взять из \\backupnpo.comp.npo\newinstaller). Пример запуска:
+4. Запустить команду создания инстанса.
+Передать следующие параметры:
+- rx_instaler_dir_path - путь к дистрибутиву, содержащему DL, RX, Repacking, DDS (можно взять из \\backupnpo.comp.npo\newinstaller)
+- instance_name - название инстанса (рекомендуется указывать версию платформы)
+- port - http-порт, по которому будет доступен проводник RX
+Пример запуска:
 ```
 .\install_instance_simple.ps1 -rx_instaler_dir_path "D:\_rx\distrs\master" -instance_name master -port 90 
 ```
