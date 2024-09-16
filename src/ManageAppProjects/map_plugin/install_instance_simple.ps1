@@ -28,7 +28,7 @@ $params = @{
     map_plugin_path = $map_plugin_path
     cfg_before_install_path = $cfg_before_install_path
     cfg_after_install_path = $cfg_after_install_path
-    cfg_after_install_wfc_path = $cfg_after_install_wfc_path
+    cfg_after_install_wcf_path = $cfg_after_install_wfc_path
 }
 
 & "$PSScriptRoot/install_instance.ps1" @params
