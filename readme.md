@@ -47,9 +47,9 @@
 ```
 .\src\ManageAppProjects\map_plugin\init_util.ps1
 ```
-4. Запустить команду создания инстанса, пример:
+4. Запустить команду создания инстанса. В "rx_instaler_dir_path" нужно указать путь к дистрибутиву, содержащему DL, RX, Repacking, DDS (можно взять из \\backupnpo.comp.npo\newinstaller). Пример запуска:
 ```
-.\install_instance_simple.ps1 -rx_instaler_dir_path "D:\_rx\distrs\master" -instance_name master2 -port 90 
+.\install_instance_simple.ps1 -rx_instaler_dir_path "D:\_rx\distrs\master" -instance_name master -port 90 
 ```
 5. В ОС откроется окно консоли, в браузере откроется DirectumLauncher, где необходимо выбрать:
     - Пункт "Установка"
@@ -58,6 +58,10 @@
 6. Нажать кнопку "Установить"
 7. ВАЖНО: После завершения установки, закрыть консольное окно в ОС
 8. Установка первого инстанса завершена
+9. Скачать последнюю версию ui-утилиты https://github.com/DirectumCompany/rx-instance-manager/releases
+10. Распаковать и запустить утилиту
+11. Нажать кнопку "Добавить" и указать путь к папке с установленным инстансом RX
+12. Нажать ПКМ на инстансе, выбрать "Создать проект"
 
 
 ## Подготовка к установке инстансов Directum RX
