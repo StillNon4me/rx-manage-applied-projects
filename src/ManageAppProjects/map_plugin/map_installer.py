@@ -453,18 +453,23 @@ def _create_repo_symlinks(config):
             log.info(_colorize_green("Создание корневой папки репозиториев: {git_root_dir}"))
             os.makedirs(git_root_dir)
 
+        import subprocess
         # создание указанных симлинков для репозиториев
         dds_config = config["services_config"]["DevelopmentStudio"]
         if dds_config is not None:
             repos = dds_config["REPOSITORIES"]["repository"]
             for repo in repos:
-                symlink_source = repo["@symlinkFolderPath"]
+                symlink_source_root = repo["@symlinkFolderPath"]
                 symlink_destination = f"{git_root_dir}\\{repo['@folderName']}"
-                if symlink_source is not None and symlink_source != '':
+                if symlink_source_root is not None and symlink_source_root != '':
+                    symlink_source_folder = os.path.join(symlink_source_root, repo['@folderName'])
+                    if not os.path.exists(os.path.join(symlink_source_root, repo['@folderName'])) and repo['@url'] != '':
+                        cmd = f"git clone {repo['@url']} {symlink_source_folder}"
+                        p = subprocess.run(cmd)
+                        exit_code = p.returncode
                     if not os.path.exists(symlink_destination):
-                        symlink_source = f"{symlink_source}\\{repo['@folderName']}"
-                        log.info(_colorize_green(f"Создание симлинка: {symlink_destination} -> {symlink_source}"))
-                        os.symlink(symlink_source, symlink_destination)
+                        log.info(_colorize_green(f"Создание симлинка: {symlink_destination} -> {symlink_source_folder}"))
+                        os.symlink(symlink_source_folder, symlink_destination)
 
 def _update_sungero_config(project_config_path, sungero_config_path):
     """Преобразовать текущий config.yml в соотвтетствии с указанным конфигом проекта.
