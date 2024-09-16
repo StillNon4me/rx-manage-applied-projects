@@ -18,7 +18,3 @@ services_config:
     DevelopmentStudio:
         SERVICE_RUNNER_CONFIG_PATH: '{{ instance_root_path }}\{{ instance_name }}\etc\_{{ instance_name }}\_services_config\ServiceRunner\_ConfigSettings.xml'
         GIT_ROOT_DIRECTORY: '{{ home_path_src }}'
-    IIS:
-        wcf_app_name: 'Sungero'
-        wcf_apppool_name: 'Sungero'
-        desktop_dir_name: 'Client'
