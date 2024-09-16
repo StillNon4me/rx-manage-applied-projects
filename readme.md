@@ -47,9 +47,9 @@
 ```
 .\src\ManageAppProjects\map_plugin\init_util.ps1
 ```
-4. Запустить команду создания инстанса
+4. Запустить команду создания инстанса, пример:
 ```
-TODO
+.\install_instance_simple.ps1 -rx_instaler_dir_path "D:\_rx\distrs\master" -instance_name master2 -port 90 
 ```
 5. В ОС откроется окно консоли, в браузере откроется DirectumLauncher, где необходимо выбрать:
     - Пункт "Установка"
