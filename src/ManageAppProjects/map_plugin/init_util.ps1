@@ -90,7 +90,7 @@ function Copy-Modified-Config
         }
         elseif ($line.StartsWith("    MONGODB_CONNECTION_STRING:"))
         {
-            Add-Content -Path $TargetPath -Value "    MONGODB_CONNECTION_STRING: 'mongodb://$( $cfg.mongo_user ):$( $cfg.mongo_password )@$( $mongo_server ):27017'" -Encoding 'utf8'
+            Add-Content -Path $TargetPath -Value "    MONGODB_CONNECTION_STRING: 'mongodb://$( $cfg.mongo_user ):$( $cfg.mongo_password )@$( $cfg.mongo_server ):27017'" -Encoding 'utf8'
         }
         elseif ($line.StartsWith("    AUTHENTICATION_PASSWORD:"))
         {
