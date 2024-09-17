@@ -49,12 +49,12 @@
 ```
 4. Запустить команду создания инстанса.
 Передать следующие параметры:
-- rx_instaler_dir_path - путь к дистрибутиву, содержащему DL, RX, Repacking, DDS (можно взять из \\backupnpo.comp.npo\newinstaller). Можно указывать удаленные или локальные папки
+- rx_instaler_dir_path - путь к дистрибутиву, содержащему DL, Platform, RX, Repacking, DDS (можно взять из \\backupnpo.comp.npo\newinstaller). Можно указывать удаленные или локальные папки
 - instance_name - название инстанса (рекомендуется указывать версию платформы)
 - port - http-порт, по которому будет доступен проводник RX
 Пример запуска:
 ```
-.\install_instance_simple.ps1 -rx_instaler_dir_path "D:\rx\distrs\master" -instance_name master -port 90 
+.\src\ManageAppProjects\map_plugin\install_instance_simple.ps1 -rx_instaler_dir_path "D:\rx\distrs\master" -instance_name master -port 90 
 ```
 5. В ОС откроется окно консоли, в браузере откроется DirectumLauncher, где необходимо выбрать:
     - Пункт "Установка"
