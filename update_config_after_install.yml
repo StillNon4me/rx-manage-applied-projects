@@ -5,6 +5,15 @@ variables:
 logs_path: &logs
     LOGS_PATH: '...корневой_каталог_логов...\{{ instance_name }}'
 common_config: &base
+    # Папка проектов RX
+    projects_path: 'D:\Projects'
+    # Домашняя директория, относительно котрой хранятся все данные сервисов.
+    # Используется только в конфиге.
+    # Папка Directum Launcher, обычно DirectumLauncher или SungeroScripts
+    directum_launcher: 'DirectumLauncher' # DirectumLauncher, SungeroScripts
+    # Путь до репозитория DirectumRX
+    directumrx_path: '{{ projects_path }}/master/RX'
+    
     #DATABASE_ENGINE: 'mssql'
     #CONNECTION_STRING: 'data source=...сервер...;initial catalog=;user id=...логин...;Password=...пароль...'
     #DATABASE_ENGINE: 'postgres'
