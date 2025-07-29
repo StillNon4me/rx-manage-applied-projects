@@ -66,7 +66,7 @@ function Copy-Modified-Config
             }
             elseif ($cfg.db_engine -eq 'postgres')
             {
-                $connection_string = "server=$( $cfg.db_server );port=$( $cfg.postgres_port );database=$( db );user id=$( $cfg.db_user );Password=$( $cfg.db_password )"
+                $connection_string = "server=$( $cfg.db_server );port=$( $cfg.postgres_port );database=$( $db );user id=$( $cfg.db_user );Password=$( $cfg.db_password )"
             }
             else
             {
